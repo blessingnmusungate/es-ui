@@ -55,9 +55,7 @@ export default function RiskDetectorPage() {
         const data = await getFactsApi();
         setFacts(data);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to load facts"
-        );
+        setError(err instanceof Error ? err.message : "Failed to load facts");
       } finally {
         setLoading(false);
       }
@@ -72,13 +70,13 @@ export default function RiskDetectorPage() {
     () =>
       Object.values(form).reduce(
         (count, value) => (value ? count + 1 : count),
-        0,
+        0
       ),
-    [form],
+    [form]
   );
 
   const totalFacts = facts ? Object.keys(facts).length : 0;
-  const canSubmit = filledCount >= 3 && !isSubmitting && !loading;
+  const canSubmit = filledCount >= 2 && !isSubmitting && !loading;
 
   function updateField(key: string, value: string) {
     setForm((prev) => ({
@@ -92,8 +90,10 @@ export default function RiskDetectorPage() {
     setError(null);
     setResult(null);
 
-    if (filledCount < 3) {
-      setError("Please provide at least 3 facts before running the expert system.");
+    if (filledCount < 2) {
+      setError(
+        "Please provide at least 2 facts before running the expert system."
+      );
       return;
     }
 
@@ -107,12 +107,12 @@ export default function RiskDetectorPage() {
           ? window.localStorage.getItem("es_auth_token")
           : null;
       const res = await evaluateDropoutRiskApi(form, token);
-      
+
       // Ensure minimum delay for animation visibility
       const elapsed = Date.now() - startTime;
       const remainingDelay = Math.max(0, minDelay - elapsed);
       await new Promise((resolve) => setTimeout(resolve, remainingDelay));
-      
+
       setResult(res);
     } catch (err) {
       const message =
@@ -146,7 +146,9 @@ export default function RiskDetectorPage() {
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">
             Student Dropout Risk Detector
           </h1>
-          <p className="mt-4 text-base font-medium text-slate-900">Redirecting to login...</p>
+          <p className="mt-4 text-base font-medium text-slate-900">
+            Redirecting to login...
+          </p>
         </section>
       </div>
     );
@@ -159,7 +161,9 @@ export default function RiskDetectorPage() {
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">
             Student Dropout Risk Detector
           </h1>
-          <p className="mt-4 text-base font-medium text-slate-900">Loading facts...</p>
+          <p className="mt-4 text-base font-medium text-slate-900">
+            Loading facts...
+          </p>
         </section>
       </div>
     );
@@ -189,7 +193,8 @@ export default function RiskDetectorPage() {
           Student Dropout Risk Detector
         </h1>
         <p className="mt-2 text-base font-medium text-slate-900">
-          Provide at least <span className="font-bold">three</span> facts about a student to evaluate their dropout risk.
+          Provide at least <span className="font-bold">three</span> facts about
+          a student to evaluate their dropout risk.
         </p>
 
         <form
@@ -225,12 +230,12 @@ export default function RiskDetectorPage() {
 
           <div className="flex items-center justify-between text-sm font-medium text-slate-900">
             <p>
-              Facts provided:{" "}
-              <span className="font-bold">{filledCount}</span> / {totalFacts}
+              Facts provided: <span className="font-bold">{filledCount}</span> /{" "}
+              {totalFacts}
             </p>
             <p>
               Minimum required:{" "}
-              <span className="font-bold text-blue-700">3</span>
+              <span className="font-bold text-blue-700">2</span>
             </p>
           </div>
 
@@ -275,10 +280,10 @@ export default function RiskDetectorPage() {
                 </span>
               </p>
               <div>
-                <p className="mb-1 font-bold text-slate-900">
-                  Explanation
+                <p className="mb-1 font-bold text-slate-900">Explanation</p>
+                <p className="font-medium text-slate-900">
+                  {result.explanation}
                 </p>
-                <p className="font-medium text-slate-900">{result.explanation}</p>
               </div>
               {result.remedies?.length > 0 && (
                 <div>

@@ -193,8 +193,8 @@ export default function RiskDetectorPage() {
           Student Dropout Risk Detector
         </h1>
         <p className="mt-2 text-base font-medium text-slate-900">
-          Provide at least <span className="font-bold">three</span> facts about
-          a student to evaluate their dropout risk.
+          Provide at least <span className="font-bold">two</span> facts about a
+          student to evaluate their dropout risk.
         </p>
 
         <form

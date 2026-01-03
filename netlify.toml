@@ -1,4 +1,3 @@
 [build]
   command = "npm run build"
-  base = "es-ui"
   publish = ".next"
